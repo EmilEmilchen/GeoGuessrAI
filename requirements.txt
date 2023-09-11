@@ -6,3 +6,5 @@ tensorflow
 pyautogui
 keyboard
 pynput
+torchvision
+torchaudio
