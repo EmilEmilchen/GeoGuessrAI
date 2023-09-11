@@ -42,5 +42,5 @@ def identify(image, count):
 
 
 def print_results(results):
-    for (country, probability) in zip(results[0], results[5]):
+    for (country, probability) in zip(results[0], results[1]):
         print(country, probability)
