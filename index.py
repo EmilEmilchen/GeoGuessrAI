@@ -2,6 +2,9 @@ import time
 import keyboard
 from PIL import ImageGrab, Image
 import geo
+import timeit
+
+
 
 
 def main():
@@ -19,7 +22,8 @@ def main():
             # Call the geo.identify() function with the captured image.
             result = geo.identify(screenshot, 5)
 
-
+            #execution_time = timeit.timeit(lambda: geo.identify(screenshot, 5), number=1)
+            #print(f"Execution time: {execution_time:.4f} seconds")
 
             # Print the result.
             geo.print_results(result)

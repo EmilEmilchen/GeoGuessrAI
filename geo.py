@@ -2,7 +2,14 @@ from PIL import Image
 import torch
 from transformers import CLIPProcessor, CLIPModel
 
-model = CLIPModel.from_pretrained("geolocal/StreetCLIP")
+if torch.cuda.is_available():
+    device = torch.device("cuda")
+    print("Using GPU:", torch.cuda.get_device_name(0))  # Print GPU name
+else:
+    device = torch.device("cpu")
+    print("No GPU available, using CPU")
+
+model = CLIPModel.from_pretrained("geolocal/StreetCLIP").to(device)
 processor = CLIPProcessor.from_pretrained("geolocal/StreetCLIP")
 
 choices = ["Åland", "Albania", "American Samoa", "Andorra", "Argentina", "Australia", "Austria", "Bangladesh",
@@ -22,7 +29,7 @@ choices = ["Åland", "Albania", "American Samoa", "Andorra", "Argentina", "Austr
 
 
 def identify(image, count):
-    inputs = processor(text=choices, images=image, return_tensors="pt", padding=True)
+    inputs = processor(text=choices, images=image, return_tensors="pt", padding=True).to(device)
 
     outputs = model(**inputs)
     logits_per_image = outputs.logits_per_image  # this is the image-text similarity score

@@ -1,10 +1,6 @@
 pillow
 requests
 transformers
-torch
-tensorflow
 pyautogui
 keyboard
 pynput
-torchvision
-torchaudio
