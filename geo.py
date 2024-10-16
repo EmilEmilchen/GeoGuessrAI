@@ -42,7 +42,7 @@ def identify(image, count):
     result = [[], []]
     for i in range(0, count):
         result[0].append(choices[sorted_indices[i].item()])
-        result[1].append(outputs[sorted_indices[i].item()].detach().numpy().tolist())
+        result[1].append(outputs[sorted_indices[i].item()].detach().cpu().numpy().tolist())
 
     return result
 

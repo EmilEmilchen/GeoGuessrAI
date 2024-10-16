@@ -1,6 +1,7 @@
 import socket
 from PIL import Image
 import io
+import json
 import geo
 
 def handle_client(client_socket):
@@ -21,8 +22,11 @@ def handle_client(client_socket):
     # Verarbeite das Bild
     result = geo.identify(image, 5)
     
+    # Konvertiere das Ergebnis in JSON
+    result_json = json.dumps(result)
+    
     # Sende die Ergebnisse zurück
-    client_socket.sendall(result.encode('utf-8'))
+    client_socket.sendall(result_json.encode('utf-8'))
     client_socket.close()
 
 def main():

@@ -1,9 +1,9 @@
 import socket
-import time
 import pyscreenshot as ImageGrab
 import io
 import tkinter as tk
 from tkinter import messagebox
+import json
 
 def capture_and_send_screenshot():
     print("Capturing...")
@@ -36,7 +36,8 @@ def capture_and_send_screenshot():
         client.sendall(img_bytes)
 
         # Empfange die Ergebnisse
-        result = client.recv(4096).decode('utf-8')
+        result_json = client.recv(4096).decode('utf-8')
+        result = json.loads(result_json)
         print("Result:", result)
         messagebox.showinfo("Result", f"Result: {result}")
     except Exception as e:
