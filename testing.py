@@ -1,19 +1,27 @@
-from pynput.mouse import Listener
+import evdev
+from evdev import InputDevice, ecodes
 
+# Set screen resolution (change according to your screen)
+screen_width = 1920
+screen_height = 1080
 
-def on_move(x, y):
-    print(f"Cursor Position: x={x}, y={y}")
+# Start at the middle of the screen
+x, y = screen_width // 2, screen_height // 2
 
+# Open the mouse input device
+device = InputDevice('/dev/input/event21')  # Replace 'XX' with the correct event number
 
-def main():
-    print("Press Ctrl + C to exit.")
+print(f"Tracking mouse coordinates. Initial position: {x}, {y}")
 
-    with Listener(on_move=on_move) as listener:
-        try:
-            listener.join()
-        except KeyboardInterrupt:
-            print("\nProgram exited.")
+for event in device.read_loop():
+    if event.type == ecodes.EV_REL:
+        if event.code == ecodes.REL_X:
+            x += event.value
+        elif event.code == ecodes.REL_Y:
+            y += event.value
 
+        # Ensure the position stays within screen boundaries
+        x = max(0, min(screen_width, x))
+        y = max(0, min(screen_height, y))
 
-if __name__ == "__main__":
-    main()
+        print(f"Mouse position: ({x}, {y})")

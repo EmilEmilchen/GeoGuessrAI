@@ -27,7 +27,6 @@ choices = ["Åland", "Albania", "American Samoa", "Andorra", "Argentina", "Austr
            "United Kingdom", "United States Virgin Islands", "Uruguay", "USA", "United States of America", "Curaçao",
            "Turkiye", "Aland"]
 
-
 def identify(image, count):
     inputs = processor(text=choices, images=image, return_tensors="pt", padding=True).to(device)
 
@@ -46,7 +45,6 @@ def identify(image, count):
         result[1].append(outputs[sorted_indices[i].item()].detach().numpy().tolist())
 
     return result
-
 
 def print_results(results):
     for (country, probability) in zip(results[0], results[1]):
