@@ -10,7 +10,7 @@ def capture_and_send_screenshot():
 
     try:
         # Capture the screen.
-        screenshot = ImageGrab.grab(bbox=(0, 175, 1570, 1070))  # X1,Y1,X2,Y2
+        screenshot = ImageGrab.grab(bbox=(200, 300, 3200, 2200))  # X1,Y1,X2,Y2
     except Exception as e:
         print(f"Screenshot failed: {e}")
         messagebox.showerror("Error", f"Screenshot failed: {e}")
@@ -34,17 +34,31 @@ def capture_and_send_screenshot():
 
         # Sende das Bild
         client.sendall(img_bytes)
-
+sss
         # Empfange die Ergebnisse
         result_json = client.recv(4096).decode('utf-8')
         result = json.loads(result_json)
         print("Result:", result)
-        messagebox.showinfo("Result", f"Result: {result}")
+        display_result(result)
     except Exception as e:
         print(f"Failed to send/receive data: {e}")
         messagebox.showerror("Error", f"Failed to send/receive data: {e}")
     finally:
         client.close()
+
+def display_result(result):
+    countries, percentages = result
+    result_str = "\n".join([f"{country}: {percent:.2f}%" for country, percent in zip(countries, percentages)])
+    result_window = tk.Toplevel()
+    result_window.title("Result")
+
+    result_text = tk.Text(result_window, wrap='word')
+    result_text.insert(tk.END, result_str)
+    result_text.config(state=tk.DISABLED)
+    result_text.pack(padx=10, pady=10)
+
+    close_button = tk.Button(result_window, text="Close", command=result_window.destroy)
+    close_button.pack(pady=10)
 
 def main():
     root = tk.Tk()
