@@ -9,7 +9,7 @@ screen_height = 1080
 x, y = screen_width // 2, screen_height // 2
 
 # Open the mouse input device
-device = InputDevice('/dev/input/event21')  # Replace 'XX' with the correct event number
+device = InputDevice('/dev/input/event22')  # Replace 'XX' with the correct event number
 
 print(f"Tracking mouse coordinates. Initial position: {x}, {y}")
 

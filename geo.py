@@ -13,19 +13,19 @@ model = CLIPModel.from_pretrained("geolocal/StreetCLIP").to(device)
 processor = CLIPProcessor.from_pretrained("geolocal/StreetCLIP")
 
 choices = ["Åland", "Albania", "American Samoa", "Andorra", "Argentina", "Australia", "Austria", "Bangladesh",
-           "Belgium", "Bermudas", "Bhutan", "Bolivia", "Botswana", "Brazil", "Bulgaria", "Cambodia", "Chile",
-           "Christmas Islands", "Colombia", "Costa Rica", "Croatia", "Curacao", "Czech Republic", "Denmark",
-           "Dominican Republic", "Ecuador", "Estonia", "Eswatini", "Faroe Islands", "Finland", "France", "Germany",
-           "Ghana", "Gibraltar", "Greece", "Greenland", "Guam", "Guatemala", "Hong Kong", "Hungary", "Iceland", "India",
-           "Indonesia", "Ireland", "Isle of Man", "Israel", "Italy", "Japan", "Jersey", "Jordan", "Kenya", "Kyrgyzstan",
-           "Laos", "Latvia", "Lesotho", "Lithuania", "Luxembourg", "Macau", "Malaysia", "Malta", "Mexico", "Monaco",
-           "Mongolia", "Montenegro", "Netherlands", "New Zealand", "Nigeria", "North Macedonia",
-           "Northern Mariana Islands", "Norway", "Palestine", "Peru", "Philippines", "Pitcairn Islands", "Poland",
-           "Portugal", "Puerto Rico", "Qatar", "Reunion", "Romania", "Russia", "Rwanda", "San Marino", "Senegal",
-           "Serbia", "Singapore", "Slovakia", "Slovenia", "South Africa", "South Korea", "Spain", "Sri Lanka", "Sweden",
-           "Switzerland", "Taiwan", "Thailand", "Tunisia", "Türkiye", "Uganda", "Ukraine", "United Arab Emirates",
-           "United Kingdom", "United States Virgin Islands", "Uruguay", "USA", "United States of America", "Curaçao",
-           "Turkiye", "Aland"]
+            "Belgium", "Bermudas", "Bhutan", "Bolivia", "Botswana", "Brazil", "Bulgaria", "Cambodia", "Chile",
+            "Christmas Islands", "Colombia", "Costa Rica", "Croatia", "Czech Republic", "Denmark",
+            "Dominican Republic", "Ecuador", "Estonia", "Eswatini", "Faroe Islands", "Finland", "France", "Germany",
+            "Ghana", "Gibraltar", "Greece", "Greenland", "Guam", "Guatemala", "Hong Kong", "Hungary", "Iceland", "India",
+            "Indonesia", "Ireland", "Isle of Man", "Israel", "Italy", "Japan", "Jersey", "Jordan", "Kenya", "Kyrgyzstan",
+            "Laos", "Latvia", "Lesotho", "Lithuania", "Luxembourg", "Macau", "Malaysia", "Malta", "Mexico", "Monaco",
+            "Mongolia", "Montenegro", "Netherlands", "New Zealand", "Nigeria", "North Macedonia",
+            "Northern Mariana Islands", "Norway", "Palestine", "Peru", "Philippines", "Pitcairn Islands", "Poland",
+            "Portugal", "Puerto Rico", "Qatar", "Reunion", "Romania", "Russia", "Rwanda", "San Marino", "Senegal",
+            "Serbia", "Singapore", "Slovakia", "Slovenia", "South Africa", "South Korea", "Spain", "Sri Lanka", "Sweden",
+            "Switzerland", "Taiwan", "Thailand", "Tunisia", "Türkiye", "Uganda", "Ukraine", "United Arab Emirates",
+            "United Kingdom", "United States Virgin Islands", "Uruguay", "USA", "United States of America", "Curaçao",
+            "Turkiye", "Aland", "Canada", "Liechtenstein"]
 
 def identify(image, count):
     inputs = processor(text=choices, images=image, return_tensors="pt", padding=True).to(device)

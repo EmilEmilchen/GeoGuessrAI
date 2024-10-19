@@ -1,16 +1,28 @@
 import socket
-import pyscreenshot as ImageGrab
+import cv2
 import io
 import tkinter as tk
 from tkinter import messagebox
 import json
+from PIL import Image
 
 def capture_and_send_screenshot():
     print("Capturing...")
 
     try:
-        # Capture the screen.
-        screenshot = ImageGrab.grab(bbox=(200, 300, 3200, 2200))  # X1,Y1,X2,Y2
+        # Capture the frame from the webcam.
+        cap = cv2.VideoCapture(4)
+        ret, frame = cap.read()
+        cap.release()
+
+        if not ret:
+            raise Exception("Failed to capture image from webcam")
+
+        # Convert the frame to RGB (OpenCV uses BGR by default)
+        frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+
+        # Convert the frame to a PIL image
+        screenshot = Image.fromarray(frame_rgb)
     except Exception as e:
         print(f"Screenshot failed: {e}")
         messagebox.showerror("Error", f"Screenshot failed: {e}")
@@ -22,7 +34,7 @@ def capture_and_send_screenshot():
     try:
         # Verbinde mit dem Server
         client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        client.connect(('192.168.105.165', 9999))  # Ersetzen Sie 'SERVER_IP' durch die IP-Adresse des Servers
+        client.connect(('192.168.105.165', 9998))  # Ersetzen Sie 'SERVER_IP' durch die IP-Adresse des Servers
 
         # Konvertiere das Bild in Bytes
         img_byte_arr = io.BytesIO()
@@ -34,7 +46,7 @@ def capture_and_send_screenshot():
 
         # Sende das Bild
         client.sendall(img_bytes)
-sss
+
         # Empfange die Ergebnisse
         result_json = client.recv(4096).decode('utf-8')
         result = json.loads(result_json)
@@ -49,16 +61,7 @@ sss
 def display_result(result):
     countries, percentages = result
     result_str = "\n".join([f"{country}: {percent:.2f}%" for country, percent in zip(countries, percentages)])
-    result_window = tk.Toplevel()
-    result_window.title("Result")
-
-    result_text = tk.Text(result_window, wrap='word')
-    result_text.insert(tk.END, result_str)
-    result_text.config(state=tk.DISABLED)
-    result_text.pack(padx=10, pady=10)
-
-    close_button = tk.Button(result_window, text="Close", command=result_window.destroy)
-    close_button.pack(pady=10)
+    print("Result:\n" + result_str)
 
 def main():
     root = tk.Tk()
